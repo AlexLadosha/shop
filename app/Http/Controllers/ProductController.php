@@ -11,6 +11,10 @@ class ProductController extends Controller
     public function listProducts()
     {
         $products = Product::with('category')->get();
+        foreach($products as $product) {
+            dump($product->category()->name);
+        }
+        exit;
         return view('products\list', ['products' => $products]);
     }
 
