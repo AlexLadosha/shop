@@ -20,6 +20,7 @@ class OrderController extends Controller
     {
         $products = Product::all();
         $order = Order::create([
+            'total' => 0,
         ]);
 
         $data = $request->all();
@@ -27,23 +28,39 @@ class OrderController extends Controller
 
 
         foreach ($data['quantity'] as $productId => $quantity) {
-            if ($productId && $quantity !== null) {
-                foreach ($products as $product) {
-                    if ($productId == $product->id) {
-                        $total_amount = $product->price * $quantity;
-//                        dd($productId);
-                    }
-                }
-
-                OrderProduct::create([
-                    'product_id' => $productId,
-                    'order_id' => $order->id,
-                    'quantity' => $quantity,
-                    'total_amount' => $total_amount,
-
-                ]);
+            if (!$quantity) {
+                continue;
             }
+            foreach ($products as $product) {
+                if ($productId == $product->id) {
+                    $total_amount = $product->price * $quantity;
+                    break;
+//                        dd($productId);
+                }
+            }
+
+            OrderProduct::create([
+                'product_id' => $productId,
+                'order_id' => $order->id,
+                'quantity' => $quantity,
+                'total_amount' => $total_amount,
+            ]);
         }
+
+        $orderTotals = OrderProduct::where('order_id', $order->id)->get();
+        $total = 0;
+        foreach ($orderTotals as $orderTotal) {
+
+            $total += $orderTotal->total_amount;
+
+        }
+//        dump($total);
+
+        Order::where('id', $order->id)->insert([
+            'total' => $total,
+        ]);
+
+
         return redirect()->route('products_list');
 
 
