@@ -2,11 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
+
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -22,7 +25,14 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'price' => rand(5, 150),
+            'is_active' => rand(0, 1),
+            'category_id' => Category::factory(),
+            'description' => $this->faker->name(),
+            'in_stock' => rand(5, 150),
         ];
     }
 }
+
+

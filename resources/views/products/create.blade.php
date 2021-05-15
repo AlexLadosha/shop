@@ -11,12 +11,13 @@
                     Description <textarea name="description" cols="40" rows="3" ></textarea><br><br>
                     Stock <input name="in_stock"><br><br>
                     Categories
+                    <select name="category_id">
+
                     @foreach($categories as $category)
-                        <input class="form-check-input" type="radio" name="category_id"  value="{{$category->id}}">
-                        <label class="form-check-label" for="gridRadios1">
-                            {{$category->name}}
-                        </label>
-                            @endforeach <br><br>
+
+                            <option  value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                    </select><br><br>
                     <p><input type="checkbox" value="1" name="is_active"/> Active</p>
                     <input class="btn btn-primary my-2" type="submit" value="Create">
                 </form>

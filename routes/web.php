@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +35,6 @@ Route::get('/category/delete/{id}', [CategoryController::class, 'deleteCategory'
 Route::post('/category/edit/', [CategoryController::class, 'saveExistingCategory']);
 Route::get('/category/create', [CategoryController::class, 'createCategory']);
 Route::post('/category/create', [CategoryController::class, 'saveCategory']);
+
+Route::get('/order/create', [OrderController::class, 'createOrder']);
+Route::post('/order/save', [OrderController::class, 'saveOrder']);

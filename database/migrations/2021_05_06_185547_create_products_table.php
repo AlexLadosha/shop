@@ -17,11 +17,16 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('price');
+            $table->boolean('is_active');
+            $table->foreignId('category_id');
             $table->text('description');
             $table->bigInteger('in_stock');
-            $table->boolean('is_active');
             $table->timestamps();
-            $table->bigInteger('category_id');
+
+            $table->foreign('category_id')->references('id')->on('categories');
+
+
+
         });
     }
 

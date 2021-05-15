@@ -11,18 +11,15 @@ class ProductController extends Controller
     public function listProducts()
     {
         $products = Product::with('category')->get();
-        foreach($products as $product) {
-            dump($product->category()->name);
-        }
-        exit;
         return view('products\list', ['products' => $products]);
+
     }
 
     public function editProduct($id)
     {
-        $product = Product::where('id',$id)->first();
-
-        return view('products\edit', ['product' => $product]);
+        $product = Product::with('category')->where('id',$id)->first();
+        $categories = Category::all();
+        return view('products\edit', ['product' => $product, 'categories' => $categories,]);
     }
 
     public function deleteProduct($id)

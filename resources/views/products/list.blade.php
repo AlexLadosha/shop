@@ -8,15 +8,11 @@
             <th>Id</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Is active</th>
+            <th>Active</th>
             <th>Stock</th>
-            <th>Category_id</th>
+            <th>Category</th>
             <th>Delete</th>
         </tr>
-        @php
-        dump($products);
-
-        @endphp
         @foreach($products as $product)
 
             <tr>
