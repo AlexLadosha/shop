@@ -28,6 +28,7 @@
 
         </table>
         @csrf
+        Ввести промокод <input name="promo">
         <input type="submit" class="btn btn-primary my-2" value="Save" />
     </form>
 

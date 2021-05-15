@@ -27,7 +27,7 @@
             <a href="/" class="text-white">Home</a>
             <a href="/categories" class="text-white">Categories</a>
             <a href="/products" class="text-white">Products</a>
-            <a href="/order/create" class="text-white">Orders</a>
+            <a href="/order/create" class="text-white">Create order</a>
             <a href="/basket" class="text-white">Basket</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">

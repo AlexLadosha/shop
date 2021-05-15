@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use App\Models\Promo;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -18,13 +19,15 @@ class OrderController extends Controller
 
     public function saveOrder(Request $request)
     {
+        $total = 0;
         $products = Product::all();
+        $promos = Promo::all();
         $order = Order::create([
             'total' => 0,
         ]);
 
         $data = $request->all();
-//        dd($data);
+//        dd($data['promo']);
 
 
         foreach ($data['quantity'] as $productId => $quantity) {
@@ -35,9 +38,10 @@ class OrderController extends Controller
                 if ($productId == $product->id) {
                     $total_amount = $product->price * $quantity;
                     break;
-//                        dd($productId);
                 }
             }
+            $total += $total_amount;
+
 
             OrderProduct::create([
                 'product_id' => $productId,
@@ -46,19 +50,25 @@ class OrderController extends Controller
                 'total_amount' => $total_amount,
             ]);
         }
-
-        $orderTotals = OrderProduct::where('order_id', $order->id)->get();
-        $total = 0;
-        foreach ($orderTotals as $orderTotal) {
-
-            $total += $orderTotal->total_amount;
-
+        foreach ($promos as $promo) {
+            if (!$data['promo']) {
+                continue;
+            } elseif ($promo->type == 'percent_off' && $data['promo'] == $promo->code) {
+                $total = $total * $promo->value / 100;
+                break;
+            } elseif ($promo->type == 'amount_off' && $data['promo'] == $promo->code) {
+                $total = $total - $promo->value;
+                break;
+            }
         }
-//        dump($total);
 
-        Order::where('id', $order->id)->insert([
-            'total' => $total,
-        ]);
+        if ($total < 0) {
+            $total = 0;
+        }
+        Order::where('id', $order->id)->update(['total' => $total,]);
+
+
+//        dump($total);
 
 
         return redirect()->route('products_list');
