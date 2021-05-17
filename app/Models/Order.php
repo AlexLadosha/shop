@@ -15,5 +15,6 @@ class Order extends Model
         'order_id',
         'quantity',
         'total_amount',
+        'discount-total',
     ];
 }
